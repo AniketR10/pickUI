@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "pickUI",
+  "version": "1.0",
+  "description": "Steal any UI component you like in a website.",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "src/popup/index.html"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
