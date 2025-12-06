@@ -4,6 +4,14 @@ import { useState, useEffect } from 'react'
 function App() {
   const [isPicking, setIsPicking] = useState(false);
   const [data, setData] = useState<any | null>(null);
+  const [copyBtn, setCopyBtn] = useState<Boolean>(false);
+
+  const copyBtnToggle = () => {
+    navigator.clipboard.writeText(getHtmlCode());
+    setCopyBtn(true);
+
+    setTimeout(() => setCopyBtn(false), 500);
+  }
 
   const togglePicker = async () => {
     if (!chrome.tabs) return;
@@ -99,10 +107,10 @@ function App() {
                   {getHtmlCode()}
                 </pre>
                 <button 
-                  onClick={() => navigator.clipboard.writeText(getHtmlCode())}
-                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 bg-white/10 text-white px-2 py-1 rounded text-xs transition-opacity border border-white/20"
+                  onClick={copyBtnToggle}
+                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 bg-white text-black px-2 py-1 rounded text-xs transition-opacity border border-white/20 cursor-pointer "
                 >
-                  Copy HTML
+                 {copyBtn ? "✓ Copied!" : "Copy HTML"}
                 </button>
              </div>
           </div>
