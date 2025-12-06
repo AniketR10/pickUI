@@ -58,48 +58,65 @@ function createOverlay() {
 function captureCurrentElement() {
   if (!currentElement) return;
 
+  // --- Extract Computed Styles ---
   const computed = window.getComputedStyle(currentElement);
-  const allStyles: Record<string, string> = {};
+  const styles: Record<string, string> = {};
 
-  wantedProps.forEach((prop) => {
-    const value = computed.getPropertyValue(prop);
-    if (value && value !== "none" && value !== "auto" && value !== "normal" && value !== "0px" && value !== "rgba(0, 0, 0, 0)") {
-      allStyles[prop] = value;
+  for (const prop of wantedProps) {
+    const value = computed.getPropertyValue(prop).trim();
+
+    // Skip useless values (including '-' and '--')
+    if (
+      !value ||
+      value === "-" ||
+      value === "--" ||
+      value === "none" ||
+      value === "auto" ||
+      value === "normal" ||
+      value === "0px" ||
+      value === "rgba(0, 0, 0, 0)"
+    ) {
+      continue;
     }
-  });
 
+    styles[prop] = value;
+  }
+
+  // --- Extract Attributes ---
   const attributes: Record<string, string> = {};
-  Array.from(currentElement.attributes).forEach((attr) => {
-    if (attr.name !== 'style') { 
-       attributes[attr.name] = attr.value;
+  for (const attr of Array.from(currentElement.attributes)) {
+    if (attr.name !== "style") {
+      attributes[attr.name] = attr.value;
     }
-  });
+  }
 
+  // --- Payload ---
   const payload = {
     tagName: currentElement.tagName.toLowerCase(),
-    innerHTML: currentElement.innerHTML, 
-    attributes: attributes, 
-    styles: allStyles,
-    timestamp: Date.now()
+    innerHTML: currentElement.innerHTML,
+    attributes,
+    styles,
+    timestamp: Date.now(),
   };
 
-  chrome.storage.local.set({ 'latestCapture': payload });
+  // --- Save + Notify ---
+  chrome.storage.local.set({ latestCapture: payload });
   chrome.runtime.sendMessage({ action: "CAPTURED_STYLES", data: payload }).catch(() => {});
 
-  if (hudButton) {
-   // const originalText = hudButton.innerText;
-    hudButton.innerText = "✓ Copied!";
-    hudButton.style.background = "#16a34a";
-    setTimeout(() => {
-        // Check if button still exists before modifying
-        if (hudButton) {
-            hudButton.innerText = "✚ Get HTML";
-            hudButton.style.background = "#2563eb";
-        }
-        stopInspecting();
-    }, 800);
-  }
+  // --- HUD Button Feedback ---
+  if (!hudButton) return;
+
+  hudButton.innerText = "✓ Copied!";
+  hudButton.style.background = "#16a34a";
+
+  setTimeout(() => {
+    if (!hudButton) return;
+    hudButton.innerText = "✚ Get HTML";
+    hudButton.style.background = "#2563eb";
+    stopInspecting();
+  }, 800);
 }
+
 
 // 4. NEW: Updated Mouseover with Delay
 document.addEventListener("mouseover", (event) => {
