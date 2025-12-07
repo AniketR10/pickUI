@@ -84,6 +84,10 @@ function App() {
         <p className="text-xs text-slate-500 font-medium">Capture your favourite UI Component from any website</p>
       </div>
 
+      <div className="mb-4 px-3 py-2 bg-blue-50 border border-blue-200 text-blue-700 rounded-md text-xs text-center font-medium shadow-sm">
+        ℹ️ Please reload your web page before using this extension.
+      </div>
+
       <button
         onClick={togglePicker}
         className={`w-full py-3 rounded-lg font-bold text-sm mb-4 shrink-0 transition-all
