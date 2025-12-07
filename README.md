@@ -1,4 +1,4 @@
-# pickUI 🎨
+# pickUI
 
 **Capture your favourite UI Component from any website in a single click.**
 
@@ -22,12 +22,10 @@ Unlike the standard Chrome DevTools, pickUI bakes the computed styles directly i
 
 ## Features
 
-* ** Smart Inspector:** Hover over any element to highlight it.
-* ** Gap-Proof HUD:** Features a smart "Invisible Bridge" and debounce logic, so the "Get HTML" button doesn't run away when you try to click it.
-* ** Clean CSS Extraction:** Automatically filters out default browser styles, CSS variables, and vendor prefixes. Only captures what matters.
-* ** Side Panel Workflow:** Uses Chrome's Side Panel API so the UI stays open while you browse and inspect multiple elements.
-* ** Deep Capture:** Correctly handles nested elements like SVG icons, `path` tags, and links (`href`, `src` attributes are preserved).
-* ** One-Click Copy:** Generates standard HTML with inline `style="..."` attributes ready for production use.
+*  Smart Inspector: Hover over any element to highlight it.
+*  Gap-Proof HUD: Features a smart "Invisible Bridge" and debounce logic, so the "Get Component" button doesn't run away when you try to click it.
+*  Clean CSS Extraction: Automatically filters out default browser styles, CSS variables, and vendor prefixes. Only captures what matters.
+*  Side Panel Workflow: Uses Chrome's Side Panel API so the UI stays open while you browse and inspect multiple elements.
 
 ## 🛠️ Tech Stack
 
@@ -66,9 +64,9 @@ Unlike the standard Chrome DevTools, pickUI bakes the computed styles directly i
 1.  Click the **pickUI icon** in your Chrome toolbar. This opens the **Side Panel** on the right.
 2.  Click **"🎯 Pick Element"** in the side panel.
 3.  Hover over any element on the current webpage.
-4.  A **"✚ Get HTML"** button will appear floating next to the element. Click it.
+4.  A **"✚ Get Component"** button will appear floating next to the element. Click it.
 5.  The HTML code (with inline CSS) will appear in the Side Panel.
-6.  Click **"Copy HTML"** and paste it into your project!
+6.  Click **"Copy"** and paste it into your project!
 
 ## 📂 Project Structure
 
@@ -127,7 +125,6 @@ If you find a bug, please create a new Issue and include:
     ```
 6.  **Open a Pull Request** against the `main` branch.
 
----
 
 ## 🎨 Style Guide
 
