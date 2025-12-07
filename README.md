@@ -1,73 +1,138 @@
-# React + TypeScript + Vite
+# pickUI 🎨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Capture your favourite UI Component from any website in a single click.**
 
-Currently, two official plugins are available:
+pickUI is a Chrome Extension for developers that allows you to inspect any element on a webpage and extract its **HTML & CSS** as a clean, copy-pasteable component.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Unlike the standard Chrome DevTools, pickUI bakes the computed styles directly into the HTML tags as inline styles, allowing you to copy a button, card, nav bar etc. and paste it anywhere (React, HTML, Email templates) while preserving its exact look.
 
-## React Compiler
+![pickUI Demo](./demo-screenshot.png) 
+*(Add a screenshot of your extension here)*
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+<div align="center">
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| ⭐ [How to Contribute?](#contribute) |
+|-------------------------------------|
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+</div>
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+
+
+## Features
+
+* ** Smart Inspector:** Hover over any element to highlight it.
+* ** Gap-Proof HUD:** Features a smart "Invisible Bridge" and debounce logic, so the "Get HTML" button doesn't run away when you try to click it.
+* ** Clean CSS Extraction:** Automatically filters out default browser styles, CSS variables, and vendor prefixes. Only captures what matters.
+* ** Side Panel Workflow:** Uses Chrome's Side Panel API so the UI stays open while you browse and inspect multiple elements.
+* ** Deep Capture:** Correctly handles nested elements like SVG icons, `path` tags, and links (`href`, `src` attributes are preserved).
+* ** One-Click Copy:** Generates standard HTML with inline `style="..."` attributes ready for production use.
+
+## 🛠️ Tech Stack
+
+* **Core:** React + TypeScript
+* **Build Tool:** Vite
+* **Styling:** Tailwind CSS
+* **Browser API:** Chrome Extension Manifest V3 (Side Panel, Scripting, Storage)
+
+## 🚀 Installation & Setup
+
+1.  **Clone the repository**
+    ```bash
+    git clone [https://github.com/yourusername/pickUI.git](https://github.com/yourusername/pickUI.git)
+    cd pickUI
+    ```
+
+2.  **Install Dependencies**
+    ```bash
+    npm install
+    ```
+
+3.  **Build the Extension**
+    ```bash
+    npm run build
+    ```
+    *This will create a `dist` folder in your project root.*
+
+4.  **Load into Chrome**
+    1.  Open Chrome and navigate to `chrome://extensions`.
+    2.  Toggle **Developer Mode** (top right corner).
+    3.  Click **Load Unpacked**.
+    4.  Select the **`dist`** folder from your project directory.
+
+## 📖 Usage
+
+1.  Click the **pickUI icon** in your Chrome toolbar. This opens the **Side Panel** on the right.
+2.  Click **"🎯 Pick Element"** in the side panel.
+3.  Hover over any element on the current webpage.
+4.  A **"✚ Get HTML"** button will appear floating next to the element. Click it.
+5.  The HTML code (with inline CSS) will appear in the Side Panel.
+6.  Click **"Copy HTML"** and paste it into your project!
+
+## 📂 Project Structure
+
+```text
+pickUI/
+├── public/
+│   └── manifest.json      # Chrome Extension Manifest V3
+├── src/
+│   ├── background.ts      # Service Worker (Handles Side Panel toggle)
+│   ├── content.ts         # The Inspector Logic (Runs on webpages)
+│   └── popup/             # The Side Panel UI (React)
+│       ├── App.tsx        # Main UI Logic & Code Generator
+│       └── main.tsx       # Entry point
+├── vite.config.ts         # Multi-page build configuration
+└── tailwind.config.js     # Tailwind setup
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Contribute
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Understanding where things live will help you move faster:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+* **`src/content.ts`**: The Eye of the extension. This script runs on the webpage, handles the hover detection, the Invisible Bridge HUD button logic, and CSS extraction.
+* **`src/popup/App.tsx`**: The Brain of the UI. This is the React application running in the Side Panel. It handles generating the HTML strings and displaying the data.
+* **`src/background.ts`**: The Service Worker. Mainly handles opening the Side Panel when the icon is clicked.
+* **`manifest.json`**: The configuration file (Permissions, versioning, etc.).
+
+
+### 🐛 How to Report a Bug
+
+If you find a bug, please create a new Issue and include:
+1.  **Browser & Version:** (e.g., Chrome 120, Brave, Arc)
+2.  **OS:** (e.g., Windows 11, macOS Sonoma)
+3.  **Steps to Reproduce:**
+    * Go to '...'
+    * Click on '...'
+    * See error '...'
+4.  **Screenshots/Video:** Since this is a visual tool, a GIF or screenshot helps immensely.
+
+
+### 💡 How to Submit a Pull Request
+
+1.  **Create a Branch:**
+    ```bash
+    git checkout -b feature/amazing-feature
+    ```
+2.  **Make your changes.**
+3.  **Test Manually:**
+4.  **Commit your changes:**
+    ```bash
+    git commit -m "feat: Add support for capturing SVG gradients"
+    ```
+    *(Please use semantic commit messages: `feat`, `fix`, `docs`, `style`, `refactor`)*
+5.  **Push to your fork:**
+    ```bash
+    git push origin feature/amazing-feature
+    ```
+6.  **Open a Pull Request** against the `main` branch.
+
+---
+
+## 🎨 Style Guide
+
+* **TypeScript:** We use TypeScript for everything. Please avoid using `any` unless absolutely necessary (like when dealing with messy DOM APIs).
+* **Styling:** We use Tailwind CSS. Avoid writing custom CSS files unless you are modifying the scrollbar or global resets.
+* **Formatting:** If possible, ensure your code is formatted with Prettier before submitting.
+
+---
