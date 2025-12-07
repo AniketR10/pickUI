@@ -6,8 +6,7 @@ pickUI is a Chrome Extension for developers that allows you to inspect any eleme
 
 Unlike the standard Chrome DevTools, pickUI bakes the computed styles directly into the HTML tags as inline styles, allowing you to copy a button, card, nav bar etc. and paste it anywhere (React, HTML, Email templates) while preserving its exact look.
 
-![pickUI Demo](./demo-screenshot.png) 
-*(Add a screenshot of your extension here)*
+▶️ [Watch Demo Video](https://www.youtube.com/watch?v=MFA7a2hBQWI)
 
 
 <div align="center">
